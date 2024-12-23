@@ -52,6 +52,12 @@ export interface DashboardMetrics {
   expenseByCategorySummary: ExpenseByCategorySummary[];
 }
 
+export interface User {
+  userId: string;
+  name: string;
+  email: string;
+}
+
 /**
  * API configuration using Redux Toolkit Query.
  * This setup defines and manages endpoints for retrieving,
@@ -63,7 +69,7 @@ export const api = createApi({
   // Unique name for the API slice, used for managing state in Redux
   reducerPath: "api",
   // Tag types used for caching and invalidating/updating data
-  tagTypes: ["DashboadMetrics", "Products"],
+  tagTypes: ["DashboadMetrics", "Products", "Users"],
   // API endpoints to perform CRUD operations (e.g., GET, POST)
   endpoints: (build) => ({
     getDashboardMetrics: build.query<DashboardMetrics, void>({
@@ -85,6 +91,10 @@ export const api = createApi({
       }),
       invalidatesTags: ["Products"],
     }),
+    getUsers: build.query<User[], void>({
+      query: () => "/users",
+      providesTags: ["Users"],
+    }),
   }),
 });
 
@@ -93,4 +103,5 @@ export const {
   useGetDashboardMetricsQuery,
   useGetProductsQuery,
   useCreateProductMutation,
+  useGetUsersQuery,
 } = api;
