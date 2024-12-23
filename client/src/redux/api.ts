@@ -10,6 +10,13 @@ export interface Product {
   stockQuantity: number;
 }
 
+export interface NewProduct {
+  name: string;
+  price: number;
+  rating?: number;
+  stockQuantity: number;
+}
+
 export interface SalesSummary {
   salesSummaryId: string;
   totalValue: number;
@@ -56,15 +63,34 @@ export const api = createApi({
   // Unique name for the API slice, used for managing state in Redux
   reducerPath: "api",
   // Tag types used for caching and invalidating/updating data
-  tagTypes: ["DashboadMetrics"],
+  tagTypes: ["DashboadMetrics", "Products"],
   // API endpoints to perform CRUD operations (e.g., GET, POST)
   endpoints: (build) => ({
     getDashboardMetrics: build.query<DashboardMetrics, void>({
       query: () => "/dashboard",
       providesTags: ["DashboadMetrics"],
     }),
+    getProducts: build.query<Product[], string | void>({
+      query: (search) => ({
+        url: "/products",
+        params: search ? { search } : {},
+      }),
+      providesTags: ["Products"],
+    }),
+    createProduct: build.mutation<Product, NewProduct>({
+      query: (newProduct) => ({
+        url: "/products",
+        method: "POST",
+        body: newProduct,
+      }),
+      invalidatesTags: ["Products"],
+    }),
   }),
 });
 
 // Hooks for frontend components to interact with the backend
-export const { useGetDashboardMetricsQuery } = api;
+export const {
+  useGetDashboardMetricsQuery,
+  useGetProductsQuery,
+  useCreateProductMutation,
+} = api;
