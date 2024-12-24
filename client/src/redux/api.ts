@@ -69,7 +69,7 @@ export const api = createApi({
   // Unique name for the API slice, used for managing state in Redux
   reducerPath: "api",
   // Tag types used for caching and invalidating/updating data
-  tagTypes: ["DashboadMetrics", "Products", "Users"],
+  tagTypes: ["DashboadMetrics", "Products", "Users", "Expenses"],
   // API endpoints to perform CRUD operations (e.g., GET, POST)
   endpoints: (build) => ({
     getDashboardMetrics: build.query<DashboardMetrics, void>({
@@ -95,6 +95,10 @@ export const api = createApi({
       query: () => "/users",
       providesTags: ["Users"],
     }),
+    getExpensesByCategory: build.query<ExpenseByCategorySummary[], void>({
+      query: () => "/expenses",
+      providesTags: ["Expenses"],
+    }),
   }),
 });
 
@@ -104,4 +108,5 @@ export const {
   useGetProductsQuery,
   useCreateProductMutation,
   useGetUsersQuery,
+  useGetExpensesByCategoryQuery,
 } = api;
