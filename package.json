@@ -1,0 +1,22 @@
+{
+  "name": "inventory-managment",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "install:concurrently": "npm install concurrently",
+    "install:server": "npm install --prefix server",
+    "install:client": "npm install --prefix client",
+    "install": "npm run install:concurrently && concurrently \"npm run install:server\" \"npm run install:client\"",
+    "server": "npm run dev --prefix server",
+    "client": "npm run dev --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^9.1.2"
+  }
+}
